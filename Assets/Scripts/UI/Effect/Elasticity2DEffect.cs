@@ -20,8 +20,10 @@ namespace Assets.Scripts.UI.Effect
         {
             var rect = tf.GetComponent<RectTransform>()?tf.GetComponent<RectTransform>():tf;
             rect.localScale = new Vector3(0,0,0);
-            AnimationCurve curve = new AnimationCurve(keyframes==null?keyframes:showkeyframes);
-            rect.DOScale(endvalue,time).SetEase(curve).onComplete=()=>{callfunc?.Invoke();};
+            AnimationCurve curve = new AnimationCurve(keyframes==null?showkeyframes:keyframes);
+
+            rect.DOScale(endvalue,time).SetEase(curve).onComplete=()=>{
+                callfunc?.Invoke();};
         }
 
         public static void Elasticity2DHide(this Transform tf,float time=0.5f,float endvalue = 0,Action callfunc = null)

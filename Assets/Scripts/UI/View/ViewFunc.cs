@@ -19,6 +19,39 @@ public class ViewFunc<T> :IFillFunc<ViewFunc<T>> where T:ViewConfigData
     public void Add(ViewFunc<T> func)
     {
         if(func.CreateCallFunc!=null)
+            CreateCallFunc += func.CreateCallFunc;
+
+        if(func.AfterCreateFunc!=null)
+            AfterCreateFunc += func.AfterCreateFunc;
+
+        if(func.BeforeShowCallFunc!=null)
+            BeforeShowCallFunc += func.BeforeShowCallFunc;
+
+        if(func.ShowCallFunc!=null)
+            ShowCallFunc += func.ShowCallFunc;    
+
+        if(func.BeforeCloseCallFunc!=null)
+            BeforeCloseCallFunc += func.BeforeCloseCallFunc;
+
+        if(func.BtnCloseCallFunc!=null)
+            BtnCloseCallFunc += func.BtnCloseCallFunc;
+
+        if(func.CloseCallFunc!=null)
+            CloseCallFunc += func.CloseCallFunc;
+
+        if(func.AutoCloseCallFunc!=null)
+            AutoCloseCallFunc += func.AutoCloseCallFunc;
+
+        if(func.RecycleCallFunc!=null)
+            RecycleCallFunc += func.RecycleCallFunc;
+
+        if(func.CallFunc!=null)
+            CallFunc += func.CallFunc;
+    }
+
+    public void Set(ViewFunc<T> func)
+    {
+        if(func.CreateCallFunc!=null)
             CreateCallFunc = func.CreateCallFunc;
 
         if(func.AfterCreateFunc!=null)

@@ -38,6 +38,23 @@ namespace Assets.Scripts.Common
             }
             return null;
         }
+        public static Transform FindChildByName(this GameObject go, string goName)
+        {
+            //一层一层往下找，没有就返回
+            //先执行这里
+            Transform childTF = go.transform.Find(goName);
+            if (childTF != null)
+                return childTF;
+
+            int childAmount = go.transform.childCount;
+            for(int i = 0;i< childAmount;i++)
+            {
+                childTF = FindChildByName(go.transform.GetChild(i),goName);
+                if (childTF != null)
+                    return childTF;
+            }
+            return null;
+        }
 
         public static T FindChildByName<T>(this Transform trans, string goName)
         {

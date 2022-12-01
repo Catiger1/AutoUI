@@ -8,6 +8,12 @@ public class WindowsManager: MonoSingleton<WindowsManager>
     public override void Init()
     {
         base.Init();
-        NormalWindow.OpenWindow();
+
+        NormalWindow.SetViewSerializationCfg(new ViewSerializationCfg(){
+            showType = ViewShowType.None,
+            hideType = ViewHideType.None
+        });
+
+        
     }
 }

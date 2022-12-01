@@ -9,6 +9,8 @@ namespace Assets.Scripts.UI.Effect
     {
         public void Execute(Transform tf, Action callfunc=null)
         {
+            var rect = tf.GetComponent<RectTransform>()?tf.GetComponent<RectTransform>():tf;
+            rect.localScale = new Vector3(1,1,1);
             callfunc?.Invoke();
         }
     }

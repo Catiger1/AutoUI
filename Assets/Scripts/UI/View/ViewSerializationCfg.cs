@@ -18,6 +18,7 @@ public enum ViewHideType
 [SerializeField]
 public class ViewSerializationCfg
 {
-    public ViewShowType showType;
-    public ViewHideType hideType;
+    public ViewShowType showType = ViewShowType.None;
+    public ViewHideType hideType = ViewHideType.None;
+    public string EffectViewName = "EffectView";
 }

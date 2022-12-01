@@ -8,7 +8,7 @@ namespace Assets.Scripts.UI.Effect
     public static class WindowsEffect2DFactory
     {
             private static Dictionary<string, object> cache;
-
+            private const string EffectScrpitsNamespace = "Assets.Scripts.UI.Effect.";
             static WindowsEffect2DFactory()
             {
                 cache = new Dictionary<string, object>();
@@ -30,7 +30,7 @@ namespace Assets.Scripts.UI.Effect
             {
                 if (!cache.ContainsKey(className))
                 {
-                    Type type = Type.GetType(className);
+                    Type type = Type.GetType(EffectScrpitsNamespace+className);
                     object instance = Activator.CreateInstance(type);
                     cache.Add(className, instance);
                 }
