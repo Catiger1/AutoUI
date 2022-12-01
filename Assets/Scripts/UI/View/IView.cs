@@ -14,5 +14,5 @@ public interface IView<T> where T:ViewConfigData
 
     void RefreshNextFrame(T data);
 
-    void AutoClose(Func<T,bool> autoClose);
+    void AutoClose(T data,Func<T,bool> autoClose);
 }

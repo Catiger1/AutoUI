@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class View<T,Q> :IView<T>,IEventExecute<Q> where T:ViewConfigData where Q:EventData
+public abstract class View<T,Q> :IView<T> where T:ViewConfigData where Q:EventData
 {
     public abstract void Open(T data,ViewFunc<T> func,ViewSerializationCfg cfg=null);
     public abstract void Close(T data);
@@ -13,12 +13,9 @@ public abstract class View<T,Q> :IView<T>,IEventExecute<Q> where T:ViewConfigDat
             Close(data);
     }
     public virtual void RefreshNextFrame(T data){}
-    public virtual  void AutoClose(Func<T,bool> autoClose){}
+    public virtual  void AutoClose(T data,Func<T,bool> autoClose){}
     public abstract void BindAndLoadPrefab(string path);
     public abstract void ExecuteEvent(Action<Q> events);
     public abstract void ClearCallFunc();
-    //public abstract void Init(string prefabPath,ViewFunc<T> func);
-    // public abstract View<T,Q> SetPrefab(string prefabPath);
-    // public abstract View<T,Q> SetViewSerializationCfg(ViewSerializationCfg cfg);
     public abstract void ProduceEffect(ViewSerializationCfg cfg);
 }

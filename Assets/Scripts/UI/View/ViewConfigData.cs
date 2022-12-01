@@ -5,4 +5,5 @@ using UnityEngine;
 public class ViewConfigData
 {
     public bool isOpenSoon = false;
+    public float autoCloseTime = 0;
 }

@@ -79,7 +79,7 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
     }
     //窗口初始化,缺什么使用默认值初始化什么
     //其中这里的func为添加
-    private void ViewInit(ViewFunc<T> func=null,ViewSerializationCfg cfg=null)
+    private void ViewInit(T data=null,ViewFunc<T> func=null,ViewSerializationCfg cfg=null)
     {
         if(instance == null)
             instance = new CT();
@@ -95,8 +95,8 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
         if(viewPrefab==null)
           BindAndLoadPrefab(Path);
     
-        instance?.OnCreate();
-        instance?.OnAfterCreate();
+        instance?.OnCreate(data);
+        instance?.OnAfterCreate(data);
 
         isInit = true;
     }
@@ -107,26 +107,26 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
         CloseEffect = WindowsEffect2DFactory.Create2DEffect(cfg.hideType);
     }
     //添加生命周期
-    public virtual void OnCreate()
+    public virtual void OnCreate(T data)
     {
         viewFunc?.CreateCallFunc?.Invoke(viewConfigData);
     }
-    public virtual void OnAfterCreate()
+    public virtual void OnAfterCreate(T data)
     {
         viewFunc?.AfterCreateFunc?.Invoke(viewConfigData);
     }
-    public virtual void OnBeforeShow()
+    public virtual void OnBeforeShow(T data)
     {
         viewFunc?.BeforeShowCallFunc?.Invoke(viewConfigData);
     }
-    public virtual void OnShow()
+    public virtual void OnShow(T data)
     {
-        viewFunc?.ShowCallFunc?.Invoke(viewConfigData);
+        viewFunc?.ShowCallFunc?.Invoke(data);
         
     }
-    public virtual void OnRecycle()
+    public virtual void OnRecycle(T data)
     {
-        viewFunc?.RecycleCallFunc?.Invoke(viewConfigData);
+        viewFunc?.RecycleCallFunc?.Invoke(data);
     }
     public override void BindAndLoadPrefab(string path)
     {
@@ -152,7 +152,7 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
            if(CloseEffect!=null)
              CloseEffect.Execute(effectView,()=>{   
                 viewFunc?.CloseCallFunc?.Invoke(data);
-                instance.OnRecycle();
+                instance.OnRecycle(data);
                 viewPrefab.SetActive(false);
              });
        }
@@ -168,23 +168,25 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
 
        if(viewPrefab!=null)
        {
-           instance?.OnBeforeShow();
+           instance?.OnBeforeShow(data);
            viewPrefab.SetActive(true);
            isOpen = true;
            if(OpenEffect!=null)
              OpenEffect.Execute(effectView,()=>
              {
                 viewFunc?.ShowCallFunc?.Invoke(data);
-                instance?.OnShow();
+                instance?.OnShow(data);
              });
            //记录打开时间
            lastOpenTime = Time.time;
        }
     }
     public static void OpenWindow(T data=null,ViewFunc<T> func=null,string prefabPath = Path,ViewSerializationCfg cfg=null)
-    {
+    {       
+        if(instance==null)
+            instance=new CT();
         if(!instance.isInit)
-            instance.ViewInit(func,cfg);
+            instance.ViewInit(data,func,cfg);
         if(data!=null)
             instance?.Open(data,func,cfg); 
         else

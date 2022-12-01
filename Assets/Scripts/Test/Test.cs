@@ -9,7 +9,15 @@ public class Test : MonoBehaviour
     {
         if(GUILayout.Button("展示"))
         {
-            NormalWindow.OpenWindow();
+            PopUpWindow.SetViewSerializationCfg(new ViewSerializationCfg(){
+                showType = ViewShowType.Elasticity,
+                hideType = ViewHideType.Elasticity
+            });
+            PopUpWindow.OpenWindow(new ViewConfigData()
+            {
+                autoCloseTime = 5
+            });
+            //NormalWindow.OpenWindow();
         }
     }
 

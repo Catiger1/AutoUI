@@ -9,10 +9,10 @@ public class WindowsManager: MonoSingleton<WindowsManager>
     {
         base.Init();
 
-        NormalWindow.SetViewSerializationCfg(new ViewSerializationCfg(){
-            showType = ViewShowType.None,
-            hideType = ViewHideType.None
-        });
+        // NormalWindow.SetViewSerializationCfg(new ViewSerializationCfg(){
+        //     showType = ViewShowType.None,
+        //     hideType = ViewHideType.None
+        // });
 
         
     }

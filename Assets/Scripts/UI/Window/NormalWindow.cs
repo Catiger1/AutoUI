@@ -13,12 +13,12 @@ public class NormalWindow: mWindow<NormalWindow,ViewConfigData,EventData>
         BtnCloseName = name;
         return this;
     }
-    public override void OnCreate()
+
+    public override void OnCreate(ViewConfigData data)
     {
-        base.OnCreate();
+        base.OnCreate(data);
         BtnsInit();
     }
-
     private void BtnsInit()
     {
         BtnClose = viewPrefab.transform.FindChildByName(BtnCloseName);
@@ -26,8 +26,8 @@ public class NormalWindow: mWindow<NormalWindow,ViewConfigData,EventData>
             BtnClose.GetComponent<Button>().onClick.AddListener(()=>{Close(viewConfigData);});
     }
 
-    public override void OnShow()
+    public override void OnShow(ViewConfigData data)
     {
-        base.OnShow();
+        base.OnShow(data);
     }
 }
