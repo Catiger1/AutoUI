@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IView<T> where T:ViewConfigData
+public interface IView<T> where T:ViewSerializationCfg
 {
-    void Open(T data,ViewFunc<T> func,ViewSerializationCfg cfg);
+    void Open(T cfg,ViewFunc<T> func);
 
-    void Close(T data);
+    void Close(T cfg);
 
     //void AddTo(IView<T> parent);
-    void Refresh(T data,Func<T,bool> autoClose);
+    void Refresh(T cfg,Func<T,bool> autoClose);
 
-    void RefreshNextFrame(T data);
+    void RefreshNextFrame(T cfg);
 
-    void AutoClose(T data,Func<T,bool> autoClose);
+    void AutoClose(T cfg,Func<T,bool> autoClose);
 }

@@ -11,13 +11,16 @@ public class Test : MonoBehaviour
         {
             PopUpWindow.SetViewSerializationCfg(new ViewSerializationCfg(){
                 showType = ViewShowType.Elasticity,
-                hideType = ViewHideType.Elasticity
+                hideType = ViewHideType.Elasticity,
+                AutoCloseEnable = true,
+                AutoCloseTime = 5
             });
-            PopUpWindow.OpenWindow(new ViewConfigData()
-            {
-                autoCloseTime = 5
-            });
-            //NormalWindow.OpenWindow();
+            PopUpWindow.OpenWindow();
+        }
+        if(GUILayout.Button("展示普通窗口"))
+        {
+            NormalWindow.OpenWindow();
+        
         }
     }
 

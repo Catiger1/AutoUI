@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ViewFunc<T> :IFillFunc<ViewFunc<T>> where T:ViewConfigData
+public class ViewFunc<T> :IFillFunc<ViewFunc<T>> where T:ViewSerializationCfg
 {
     public Action<T> CreateCallFunc;
     public Action<T> AfterCreateFunc;

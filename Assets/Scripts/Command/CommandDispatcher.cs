@@ -5,7 +5,6 @@ using UnityEngine;
 public class CommandDispatcher :MonoSingleton<CommandDispatcher>
 {
     CommandLinkList cmdlinkList;
-    public bool ss= false;
 
     //命令调度是否为空，为空则空闲，后续最好改成数量限制做保护，或者说考虑一个GameObject只能几个命令
     public bool IsFree
@@ -31,11 +30,11 @@ public class CommandDispatcher :MonoSingleton<CommandDispatcher>
     }
 
     private void Start() {
-        CommandDispatcher.PushCommand(new CommandData(){
-            command = ()=>{Debug.Log("Test");},
-            condition = ()=>{return ss;}
-        });
-
+        // CommandDispatcher.PushCommand(new CommandData(){
+        //     command = ()=>{Debug.Log("Test");},
+        //     condition = ()=>{return ss;}
+        // });
+        
         CommandDispatcher.PushCommand(new CommandData(){
             command = ()=>{Debug.Log("Test1");},
             

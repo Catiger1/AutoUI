@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.UI.Effect;
 using Assets.Scripts.Common;
-public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where T : ViewConfigData where Q : EventData
+public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where T : ViewSerializationCfg,new() where Q : EventData
 {
     //用于序列化参数控制，比如在unity检视面板选择打开跟关闭的方式
-    public ViewSerializationCfg  viewSerializationCfg;
-    //用于自身传参输入配置
-    public T viewConfigData;
+    public T  viewSerializationCfg;
     private ViewFunc<T> viewFunc;
     private bool isOpen = false;
     private bool isInit = false;
@@ -57,7 +55,7 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
          return instance;
     }
     //根据传入路径设置预制件路径并绑定
-    public static mWindow<CT,T,Q> SetPrefab(string prefabPath=Path)
+    public mWindow<CT,T,Q> SetPrefab(string prefabPath=Path)
     {
         if(instance ==null)
             instance = new CT();
@@ -68,18 +66,23 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
         return instance;
     }
     //编辑器序列化输入参数配置
-    public static mWindow<CT,T,Q> SetViewSerializationCfg(ViewSerializationCfg cfg=null)
+    public static mWindow<CT,T,Q> SetViewSerializationCfg(T cfg=null)
     {
         if(instance ==null)
             instance = new CT();
 
-        instance.viewSerializationCfg = cfg!=null?cfg:new ViewSerializationCfg(); 
+        instance.viewSerializationCfg = cfg!=null?cfg:new T(); 
         instance.ProduceEffect(instance.viewSerializationCfg);
+
+        if(!cfg.ViewPrefabPath.Equals("Windows/"))
+        {
+            instance.SetPrefab(cfg.ViewPrefabPath);
+        }
         return instance;
     }
     //窗口初始化,缺什么使用默认值初始化什么
     //其中这里的func为添加
-    private void ViewInit(T data=null,ViewFunc<T> func=null,ViewSerializationCfg cfg=null)
+    private void ViewInit(T cfg=null,ViewFunc<T> func=null)
     {
         if(instance == null)
             instance = new CT();
@@ -95,38 +98,38 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
         if(viewPrefab==null)
           BindAndLoadPrefab(Path);
     
-        instance?.OnCreate(data);
-        instance?.OnAfterCreate(data);
+        instance?.OnCreate(cfg);
+        instance?.OnAfterCreate(cfg);
 
         isInit = true;
     }
 
-    public override void ProduceEffect(ViewSerializationCfg cfg)
+    public override void ProduceEffect(T cfg)
     {
         OpenEffect  = WindowsEffect2DFactory.Create2DEffect(cfg.showType);
         CloseEffect = WindowsEffect2DFactory.Create2DEffect(cfg.hideType);
     }
     //添加生命周期
-    public virtual void OnCreate(T data)
+    public virtual void OnCreate(T cfg)
     {
-        viewFunc?.CreateCallFunc?.Invoke(viewConfigData);
+        viewFunc?.CreateCallFunc?.Invoke(cfg);
     }
-    public virtual void OnAfterCreate(T data)
+    public virtual void OnAfterCreate(T cfg)
     {
-        viewFunc?.AfterCreateFunc?.Invoke(viewConfigData);
+        viewFunc?.AfterCreateFunc?.Invoke(cfg);
     }
-    public virtual void OnBeforeShow(T data)
+    public virtual void OnBeforeShow(T cfg)
     {
-        viewFunc?.BeforeShowCallFunc?.Invoke(viewConfigData);
+        viewFunc?.BeforeShowCallFunc?.Invoke(cfg);
     }
-    public virtual void OnShow(T data)
+    public virtual void OnShow(T cfg)
     {
-        viewFunc?.ShowCallFunc?.Invoke(data);
+        viewFunc?.ShowCallFunc?.Invoke(cfg);
         
     }
-    public virtual void OnRecycle(T data)
+    public virtual void OnRecycle(T cfg)
     {
-        viewFunc?.RecycleCallFunc?.Invoke(data);
+        viewFunc?.RecycleCallFunc?.Invoke(cfg);
     }
     public override void BindAndLoadPrefab(string path)
     {
@@ -144,15 +147,15 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
                 Debug.LogError("Can't Not Find prefab in Path");
         }
     }
-    public override void Close(T data)
+    public override void Close(T cfg)
     {
        if(viewPrefab!=null)
        {
            isOpen = false;
            if(CloseEffect!=null)
              CloseEffect.Execute(effectView,()=>{   
-                viewFunc?.CloseCallFunc?.Invoke(data);
-                instance.OnRecycle(data);
+                viewFunc?.CloseCallFunc?.Invoke(cfg);
+                instance.OnRecycle(cfg);
                 viewPrefab.SetActive(false);
              });
        }
@@ -161,40 +164,40 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
     {
        
     }
-    public override void Open(T data,ViewFunc<T> func=null,ViewSerializationCfg cfg=null)
+    public override void Open(T cfg,ViewFunc<T> func=null)
     {
        if(func!=null)
          viewFunc?.Set(func);
 
        if(viewPrefab!=null)
        {
-           instance?.OnBeforeShow(data);
+           instance?.OnBeforeShow(cfg);
            viewPrefab.SetActive(true);
            isOpen = true;
            if(OpenEffect!=null)
              OpenEffect.Execute(effectView,()=>
              {
-                viewFunc?.ShowCallFunc?.Invoke(data);
-                instance?.OnShow(data);
+                viewFunc?.ShowCallFunc?.Invoke(cfg);
+                instance?.OnShow(cfg);
              });
            //记录打开时间
            lastOpenTime = Time.time;
        }
     }
-    public static void OpenWindow(T data=null,ViewFunc<T> func=null,string prefabPath = Path,ViewSerializationCfg cfg=null)
+    public static void OpenWindow(T cfg=null,ViewFunc<T> func=null,string prefabPath = Path)
     {       
         if(instance==null)
             instance=new CT();
         if(!instance.isInit)
-            instance.ViewInit(data,func,cfg);
-        if(data!=null)
-            instance?.Open(data,func,cfg); 
+            instance.ViewInit(cfg,func);
+        if(cfg!=null)
+            instance?.Open(cfg,func); 
         else
-            instance?.Open((T)new ViewConfigData(),func,cfg);
+            instance?.Open(instance.viewSerializationCfg!=null?instance.viewSerializationCfg:new T(),func);
     }
-    public static void CloseWindow(T data=null)
+    public static void CloseWindow(T cfg=null)
     {
-        instance.Close(data);
+        instance.Close(cfg);
     }
     public override void ClearCallFunc()
     {

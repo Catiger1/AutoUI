@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PopUpWindow : mWindow<PopUpWindow,ViewConfigData,EventData>
+public class PopUpWindow : mWindow<PopUpWindow,ViewSerializationCfg,EventData>
 {
-    public override void OnShow(ViewConfigData data)
+    public override void OnShow(ViewSerializationCfg cfg)
     {
-        base.OnShow(data);
-        AutoClose(data,(viewData)=>{
-            return  Time.time-LastOpenTime>=viewData.autoCloseTime;
+        base.OnShow(cfg);
+        AutoClose(cfg,(viewCfg)=>{
+            return  viewCfg.AutoCloseEnable&&(Time.time-LastOpenTime>=viewCfg.AutoCloseTime);
         });
     }
 
-    public override void AutoClose(ViewConfigData data,Func<ViewConfigData, bool> autoClose)
+    public override void AutoClose(ViewSerializationCfg data,Func<ViewSerializationCfg, bool> autoClose)
     {
         base.AutoClose(data,autoClose);
         CommandDispatcher.PushCommand(new CommandData(){
@@ -21,8 +21,9 @@ public class PopUpWindow : mWindow<PopUpWindow,ViewConfigData,EventData>
                 //关闭
                 CloseWindow();
             },
-            condition = ()=>{return autoClose(data);}
+            condition = ()=>{
+                return autoClose(data);
+            }
         });
-
     }
 }
