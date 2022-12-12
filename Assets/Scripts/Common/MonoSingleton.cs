@@ -22,7 +22,7 @@ public class MonoSingleton<T> : MonoBehaviour where T:MonoSingleton<T>
                 }
 
                 //找到的不用配置，没找到的需要配置
-                DontDestroyOnLoad(instance);
+                //DontDestroyOnLoad(instance);
             }
             return instance;
         }

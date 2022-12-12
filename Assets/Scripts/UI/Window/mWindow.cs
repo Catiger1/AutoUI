@@ -54,6 +54,7 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
          instance.viewFunc=func;
          return instance;
     }
+
     //根据传入路径设置预制件路径并绑定
     public mWindow<CT,T,Q> SetPrefab(string prefabPath=Path)
     {
