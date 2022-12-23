@@ -25,5 +25,6 @@ public class ViewSerializationCfg
     public string EffectViewName = "EffectView";
     public string ViewPrefabPath = "Windows/";
     public bool AutoCloseEnable = false;
-    public float AutoCloseTime;
+    public bool ButtonClose = true;
+    public float AutoCloseTime=5f;
 }

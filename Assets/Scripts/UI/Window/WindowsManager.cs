@@ -1,4 +1,4 @@
-//Generated Time: 2022/12/12 23:16:10
+//Generated Time: 2022/12/23 22:06:05
 public class WindowsManager: MonoSingleton<WindowsManager>
 {
 	public ViewSerializationCfg NormalWindowCfg;
