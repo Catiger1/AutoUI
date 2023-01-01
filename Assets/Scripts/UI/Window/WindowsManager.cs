@@ -1,12 +1,12 @@
-//Generated Time: 2022/12/23 22:06:05
+//Generated Time: 2023/1/1 21:29:45
 public class WindowsManager: MonoSingleton<WindowsManager>
 {
-	public ViewSerializationCfg NormalWindowCfg;
 	public ViewSerializationCfg PopUpWindowCfg;
+	public ViewSerializationCfg NormalWindowCfg;
 	public override void Init()
 	{
 		base.Init();
-		NormalWindow.SetViewSerializationCfg(NormalWindowCfg);
 		PopUpWindow.SetViewSerializationCfg(PopUpWindowCfg);
+		NormalWindow.SetViewSerializationCfg(NormalWindowCfg);
 	}
 }

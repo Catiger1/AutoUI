@@ -29,6 +29,22 @@ namespace Assets.Scripts.Common
             mono.ClearCoroutine();
         }
 
+        //递归找到所有带此组件的对象
+        public static List<T> FindAllTargets<T>(this Transform tf) where T:MonoBehaviour
+        {
+            List<T> result = new List<T>();
+            int childAmount = tf.childCount;
+            for(int i = 0;i< childAmount;i++)
+            {
+                T component = tf.GetChild(i).GetComponent<T>();
+                if(component!=null)
+                   result.Add(component);
+
+                result.AddRange(FindAllTargets<T>(tf.GetChild(i)));
+            }
+            
+            return result;
+        }
     }
 }
 

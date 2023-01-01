@@ -7,12 +7,14 @@ public enum ViewShowType
 {
     None,
     Elasticity,
+    FadeIn,
 }
 
 public enum ViewHideType
 {
     None,
     Elasticity,
+    FadeOut,
 }
 
 //窗口的序列化设置
@@ -24,7 +26,7 @@ public class ViewSerializationCfg
     public ViewHideType hideType = ViewHideType.None;
     public string EffectViewName = "EffectView";
     public string ViewPrefabPath = "Windows/";
-    public bool AutoCloseEnable = false;
     public bool ButtonClose = true;
+    public bool AutoCloseEnable = false;
     public float AutoCloseTime=5f;
 }
