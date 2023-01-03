@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CommandDispatcher :MonoSingleton<CommandDispatcher>
@@ -29,25 +27,25 @@ public class CommandDispatcher :MonoSingleton<CommandDispatcher>
         cmdlinkList.CommandLinkExecute();
     }
 
-    private void Start() {
-        // CommandDispatcher.PushCommand(new CommandData(){
-        //     command = ()=>{Debug.Log("Test");},
-        //     condition = ()=>{return ss;}
-        // });
+    // private void Start() {
+    //     // CommandDispatcher.PushCommand(new CommandData(){
+    //     //     command = ()=>{Debug.Log("Test");},
+    //     //     condition = ()=>{return ss;}
+    //     // });
         
-        CommandDispatcher.PushCommand(new CommandData(){
-            command = ()=>{Debug.Log("Test1");},
+    //     CommandDispatcher.PushCommand(new CommandData(){
+    //         command = ()=>{Debug.Log("Test1");},
             
-        });
+    //     });
 
-        CommandDispatcher.PushCommand(new CommandData(){
-            command = ()=>{Debug.Log("Test2");},
+    //     CommandDispatcher.PushCommand(new CommandData(){
+    //         command = ()=>{Debug.Log("Test2");},
             
-        });
+    //     });
 
-        CommandDispatcher.PushCommand(new CommandData(){
-            command = ()=>{Debug.Log("Test3");},
+    //     CommandDispatcher.PushCommand(new CommandData(){
+    //         command = ()=>{Debug.Log("Test3");},
             
-        });
-    }
+    //     });
+    // }
 }

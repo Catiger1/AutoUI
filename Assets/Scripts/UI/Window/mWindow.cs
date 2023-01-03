@@ -14,10 +14,17 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
     public GameObject viewPrefab;
     public Transform effectView;
     private static mWindow<CT,T,Q> instance;
+    private WindowsManager manager;
     private float lastOpenTime = 0;
     public float LastOpenTime
     {
         get{return lastOpenTime;}
+    }
+    private string windowName;
+    public string WindowName
+    {
+        get{return windowName;}
+        set{windowName = value;}
     }
     //初始化分为
     //窗口预制件初始化
@@ -43,7 +50,7 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
     private const string Path = "Windows/";
     public bool IsOpen
     {
-        get{return isOpen;}
+        get{return instance.isOpen;}
     }
 
     public static mWindow<CT,T,Q> SetViewFunc(ViewFunc<T> func=null)
@@ -87,6 +94,9 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
     {
         if(instance == null)
             instance = new CT();
+
+        instance.windowName = this.GetType().Name;
+
         if(viewFunc==null)
             viewFunc = func==null?new ViewFunc<T>():func;
         else if(func!=null)
@@ -103,6 +113,7 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
         instance?.OnAfterCreate(cfg);
 
         isInit = true;
+        manager = WindowsManager.Instance;
     }
 
     public override void ProduceEffect(T cfg)
@@ -136,8 +147,7 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
     {
         if(viewPrefab==null)
         {
-            var type = typeof(CT).Name;
-            GameObject go = Resources.Load<GameObject>(path+type);
+            GameObject go = Resources.Load<GameObject>(path+windowName);
             if(go!=null)
             {
                 viewPrefab = GameObject.Instantiate(go);
@@ -152,6 +162,7 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
     {
        if(viewPrefab!=null)
        {
+           manager.RemoveWindowOpen(instance.windowName);
            isOpen = false;
            if(CloseEffect!=null)
              CloseEffect.Execute(effectView,()=>{   
@@ -172,17 +183,37 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
 
        if(viewPrefab!=null)
        {
-           instance?.OnBeforeShow(cfg);
-           viewPrefab.SetActive(true);
-           isOpen = true;
-           if(OpenEffect!=null)
-             OpenEffect.Execute(effectView,()=>
-             {
-                viewFunc?.ShowCallFunc?.Invoke(cfg);
-                instance?.OnShow(cfg);
-             });
-           //记录打开时间
-           lastOpenTime = Time.time;
+           //如果是立刻打开窗口
+           Debug.Log("Open");
+           CommandDispatcher.PushCommand(new CommandData(){
+                command = ()=>{
+                    manager.AddWindowOpen(instance.windowName);
+                    instance?.OnBeforeShow(cfg);
+                    viewPrefab.SetActive(true);
+                    instance.isOpen = true;
+                    if(OpenEffect!=null)
+                        OpenEffect.Execute(effectView,()=>
+                        {
+                            viewFunc?.ShowCallFunc?.Invoke(cfg);
+                            instance?.OnShow(cfg);
+                        });
+                    //记录打开时间
+                    lastOpenTime = Time.time;
+                },
+                condition = ()=>{
+                    //命令执行条件是如果有窗口打开中，且设置为非立刻打开，则暂缓打开窗口，直到没有窗口打开中
+                    //后面这个值应该是新打开的窗口
+                    if(manager.HasWindowOpen()&&!cfg.isOpenSoon)
+                    {
+                        return false;
+                    }    
+                    else
+                    {
+                        return true;
+                    }
+                }
+           });
+
        }
     }
     public static void OpenWindow(T cfg=null,ViewFunc<T> func=null,string prefabPath = Path)

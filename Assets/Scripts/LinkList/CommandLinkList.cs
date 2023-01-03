@@ -9,11 +9,17 @@ public class CommandLinkList : LinkList<CommandData>
     {
         ProcessAllNodeWithDelete(
             (node)=>{
+                //满足无条件执行或者条件执行
                 if(node.Data.condition==null||node.Data.condition())
                 {
                     node.Data.command();
                     node.Data.isCommandExecute = true;
                 }
+                //满足不执行直接移除条件
+                else if(node.Data.removeCondition!=null&&node.Data.removeCondition())
+                {
+                    node.Data.isCommandExecute = true;
+                }else{}
             },(node)=>{
                 return node.Data.isCommandExecute;
             }

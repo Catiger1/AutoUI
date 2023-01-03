@@ -1,5 +1,5 @@
-//Generated Time: 2023/1/1 21:29:45
-public class WindowsManager: MonoSingleton<WindowsManager>
+//Generated Time: 2023/1/3 13:32:12
+public partial class WindowsManager: MonoSingleton<WindowsManager>
 {
 	public ViewSerializationCfg PopUpWindowCfg;
 	public ViewSerializationCfg NormalWindowCfg;

@@ -1,4 +1,4 @@
-//Generated Time: 2023/1/1 21:29:45
+//Generated Time: 2023/1/3 13:32:12
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,5 +22,24 @@ public class NormalWindow: mWindow<NormalWindow,ViewSerializationCfg,EventData>
 	{
 		base.OnCreate(cfg);
 		BtnsInit(cfg);
+	}
+	public override void OnShow(ViewSerializationCfg cfg)
+	{
+		base.OnShow(cfg);
+		 AutoClose(cfg,(viewCfg)=>{
+		return  viewCfg.AutoCloseEnable&&(Time.time-LastOpenTime>=viewCfg.AutoCloseTime);
+		});
+	}
+	public override void AutoClose(ViewSerializationCfg data,Func<ViewSerializationCfg, bool> autoClose)
+	{
+		base.AutoClose(data,autoClose);
+		CommandDispatcher.PushCommand(new CommandData(){
+			command = ()=>{
+				CloseWindow();
+			},
+			condition = ()=>{
+				return autoClose(data);
+			}
+		});
 	}
 }

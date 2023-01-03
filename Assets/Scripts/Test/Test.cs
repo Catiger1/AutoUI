@@ -15,7 +15,6 @@ public class Test : MonoBehaviour
         {
             NormalWindow.OpenWindow();
         }
-        
     }
 
 }

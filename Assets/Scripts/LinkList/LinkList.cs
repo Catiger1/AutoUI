@@ -65,26 +65,26 @@ public class LinkList<T>:IListDS<T>
     //删除后返回下一个节点
     public Node<T> Delete(Node<T> node)
     {
-        //如果删除的是尾节点
-        if(node.Next == null&&tail!=null)
-        {
-            tail = tail.Pre;
-        }
-        //如果删除的是头节点
+        //如果删除的是头节点,那么将下一个节点作为头节点
         if(node.Pre==null&&head!=null)
         {   
-            head = null;
-            tail = null;
+            if(head.Next!=null)
+                head = head.Next;
+            head.Pre = null;
         }
-
-        if(node.Pre!=null&&node.Next!=null)
+        //如果删除的是中间的节点
+        else if(node.Pre!=null&&node.Next!=null)
         {    
             node.Pre.Next = node.Next;
             node.Next.Pre = node.Pre;
         }
-        //要考虑后面全删除完的情况，这个时候前一个节点就要把Next置空
-        else if(node.Pre!=null&&node.Next==null)
-        {node.Pre.Next = null;}
+        //删除的是尾结点，这个时候前一个节点就要把Next置空
+        else if(node.Next == null&&tail!=null)
+        {
+            if(node.Pre!=null)
+                node.Pre.Next = null;
+            tail = node.Pre;
+        }
         else{}
         
         var temp = node.Next;
