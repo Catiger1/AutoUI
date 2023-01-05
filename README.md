@@ -1,2 +1,2 @@
 # AutoUI
-[AutoUI V0.0.1](AutoUI/AutoUI.unitypackage.md)
+[AutoUI V0.0.1](AutoUI/Assets/AutoUI.unitypackage)
