@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 5235863370164770556}
   - component: {fileID: 5235863370164770557}
   m_Layer: 5
-  m_Name: NormalWindow
+  m_Name: TemplateWindow
   m_TagString: UICanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

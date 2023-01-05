@@ -69,8 +69,16 @@ public class LinkList<T>:IListDS<T>
         if(node.Pre==null&&head!=null)
         {   
             if(head.Next!=null)
+            {    
                 head = head.Next;
-            head.Pre = null;
+                head.Pre = null;
+            }
+            else
+            {   
+                head = null;
+                tail = null;
+            }
+            
         }
         //如果删除的是中间的节点
         else if(node.Pre!=null&&node.Next!=null)
@@ -82,8 +90,16 @@ public class LinkList<T>:IListDS<T>
         else if(node.Next == null&&tail!=null)
         {
             if(node.Pre!=null)
+            {    
                 node.Pre.Next = null;
-            tail = node.Pre;
+                tail = node.Pre;
+            }
+            else
+            {   
+                head = null;
+                tail = null;
+            }
+            
         }
         else{}
         

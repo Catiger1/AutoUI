@@ -184,7 +184,6 @@ public class mWindow<CT,T, Q> : View<T, Q> where CT:mWindow<CT,T,Q>,new() where 
        if(viewPrefab!=null)
        {
            //如果是立刻打开窗口
-           Debug.Log("Open");
            CommandDispatcher.PushCommand(new CommandData(){
                 command = ()=>{
                     manager.AddWindowOpen(instance.windowName);
