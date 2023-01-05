@@ -1,7 +1,7 @@
 # AutoUI
   ### Unity包下载
   
-  [AutoUI V0.0.1](AutoUI/Assets/AutoUI_V0.01.unitypackage)
+  [AutoUI V0.0.1](AutoUI/AutoUI_V0.01.unitypackage)
   
   * 弹窗编辑器
     * 使用说明
