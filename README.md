@@ -28,6 +28,7 @@
 >>* 创建窗口后需要使用InitAllWindows函数直接初始化创建所有窗口实例或者单独使用InitWindow<T>()单独初始化某个窗口，之后就使用窗口名.OpenWindow()打开对应的窗口。
 >>* ![image text](./AutoUI/IntroductionPictures/LifeCycle.png "DBSCAN Performance Comparison")
 >>* 窗口有不同的生命周期：OnCreate、OnAfterCreate、OnBeforeShow、OnShow、OnRecycle都可以使用代码进行重写。
+>>* 窗口预制件可以在对应路径下打开并修改UI
 >>* AutoUI/Effect下为窗口打开/关闭动效文件，可以自行编写打开关闭动效文件并添加到框架中
 >>* ![image text](./AutoUI/IntroductionPictures/Command.png "DBSCAN Performance Comparison")
 >>* AutoUI/Command下CommandDispatcher.cs文件提供命令调度文件，使用双向链表构建的命令调度，通过CommandDispatcher.PushCommand(new CommandData(){})函数添加命令数据并添加进命令调度系统中，满足执行条件会执行并从命令调度系统中移除，满足移除条件则不执行直接移除，窗口中的定时关闭以及控制窗口同时只能存在一个都是依托此系统实现。
