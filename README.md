@@ -6,7 +6,7 @@
 * 弹窗编辑器
 >* 使用说明
 >>* 导入Unity包后菜单栏出现AutoUI选项，点击并选择AutoWindows打开弹窗编辑器。
->>* ![image text](https://github.com/Catiger1/AutoUI/master/AutoUI/IntroductionPictures/CreateWindow.png "DBSCAN Performance Comparison")
+>>* ![image text](./AutoUI/IntroductionPictures/CreateWindow.png "DBSCAN Performance Comparison")
 >>* 配置Create窗口下参数并点击Add就可以创建并生成对应模板的代码跟预制件。
 >>* Create下输入参数说明：
 >>>* Class Name：要生成的窗口名及代码文件类名，包括预制件名也是以此生成。
