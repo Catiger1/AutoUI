@@ -7,7 +7,7 @@
 >* 使用说明
 >>* 导入Unity包后菜单栏出现AutoUI选项，点击并选择AutoWindows打开弹窗编辑器。
 >>* ![image text](./AutoUI/IntroductionPictures/CreateWindow.png "DBSCAN Performance Comparison")
->>* 配置Create窗口下参数并点击Add就可以创建并生成对应模板的代码跟预制件。
+>>* 并配置Create窗口下参数并点击Add就可以创建并生成对应模板的代码跟预制件。
 >>* Create下输入参数说明：
 >>>* Class Name：要生成的窗口名及代码文件类名，包括预制件名也是以此生成。
 >>>* Is Open Soon：是否立即打开弹窗，默认只允许同时打开一个窗口。
@@ -18,6 +18,7 @@
 >>>* Auto Close Enable：是否使能自动关闭。
 >>>* Auto Close Time：设置自动关闭的时间
 >>* Edit窗口下输入参数说明：
+>>* ![image text](./AutoUI/IntroductionPictures/EditWindow.png "DBSCAN Performance Comparison")
 >>>* Need Detele Prefab：删除窗口的时候是否把预制件一起删除，默认是。
 >>>* Need Detele Code File: 删除窗口的时候是否把用户代码文件一起删除，默认是。
 >>>* Refresh Code：在更新配置后需要点击此按钮更新并重新生成代码。
