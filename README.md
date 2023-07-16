@@ -28,6 +28,7 @@
 >>* 创建窗口后需要使用InitAllWindows函数直接初始化创建所有窗口实例或者单独使用InitWindow<T>()单独初始化某个窗口，之后就使用窗口名.OpenWindow()打开对应的窗口。
 >>* ![image text](./AutoUI/IntroductionPictures/LifeCycle.png "DBSCAN Performance Comparison")
 >>* 窗口有不同的生命周期：OnCreate、OnAfterCreate、OnBeforeShow、OnShow、OnRecycle都可以使用代码进行重写。
+>>* ![image text](./AutoUI/IntroductionPictures/WindowPrefab.png "DBSCAN Performance Comparison")
 >>* 窗口预制件可以在对应路径下打开并修改UI
 >>* AutoUI/Effect下为窗口打开/关闭动效文件，可以自行编写打开关闭动效文件并添加到框架中
 >>* ![image text](./AutoUI/IntroductionPictures/Command.png "DBSCAN Performance Comparison")
