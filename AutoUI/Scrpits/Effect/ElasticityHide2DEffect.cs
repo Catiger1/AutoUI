@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Effect
 {
+    /// <summary>
+    /// 弹性动效隐藏窗口
+    /// </summary>
     public class ElasticityHide2DEffect: I2DEffect
     {
         public void Execute(Transform tf, Action callfunc=null)

@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Effect
 {
+    /// <summary>
+    /// 渐显动效展示窗口
+    /// </summary>
     public class FadeInShow2DEffect : I2DEffect
     {
         private float duration = 1f;

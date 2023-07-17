@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Effect
 {
+    /// <summary>
+    /// 渐隐动效隐藏窗口
+    /// </summary>
     public class FadeOutHide2DEffect : I2DEffect
     {
         private float duration = 1f;

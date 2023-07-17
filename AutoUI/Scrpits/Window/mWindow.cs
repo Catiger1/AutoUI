@@ -8,45 +8,65 @@ using System.Runtime.InteropServices.ComTypes;
 public abstract class mWindow: View {
     //用于序列化参数控制，比如在unity检视面板选择打开跟关闭的方式
     protected ViewSerializationCfg viewSerializationCfg;
+    //窗口类型，由创建时代码自动生成的枚举类型
     public WindowsType WindowType { get;protected set; }
+    //是否已经初始化
     public bool IsInit { get; set; }
+    //弹窗的生命周期函数集合结构
     private ViewFunc viewFunc;
+    //整个弹窗的窗口预制件
     protected GameObject viewPrefab;
+    //受到弹窗打开/关闭动效影响的父节点的GameObject
     protected Transform effectView;
     private WindowsManager manager;
+    //打开的时间，用于各种计算（比如弹窗自动关闭）
     public float LastOpenTime
     {
         get; set;
     }
+    //窗口名
     public string WindowName{get;set;}
+
+    //打开跟关闭动效，读取配置并以反射生成
     protected I2DEffect OpenEffect;
     protected I2DEffect CloseEffect;
-
+    //自动关闭的节点，由此执行，并执行自动关闭的代码
     public Node<CommandData> autoCloseNode;
+    /// <summary>
+    /// 获取窗口预制件
+    /// </summary>
+    /// <returns></returns>
     public GameObject GetWindowPrefab()
     {
         return viewPrefab;
     }
+    /// <summary>
+    /// 设置窗口名跟类型
+    /// </summary>
+    /// <returns></returns>
     public mWindow SetWindowNameAndType()
     {
         WindowName = this.GetType().Name;
         WindowType = (WindowsType)Enum.Parse(typeof(WindowsType), WindowName);
         return this;
     }
+    /// <summary>
+    /// 窗口初始化
+    /// </summary>
+    /// <param name="manager"></param>
+    /// <param name="cfg"></param>
+    /// <returns></returns>
     public mWindow WindowConfig(WindowsManager manager,ViewSerializationCfg cfg = null)
     {
         if (viewSerializationCfg == null)
             SetViewSerializationCfg(cfg);
-
         IsInit = true;
         this.manager = manager;
-        //viewPrefab.transform.SetParent(manager.transform);
-        
         return this;
     }
 
     /// <summary>
-    /// Set window life cycle function and Use create window life cycle function
+    /// 设置窗口生命周期函数
     /// </summary>
     public void CreateWindowFunc(Dictionary<WindowsCallFuncType, Action<WindowData>> funcDic = null, WindowData data=null)
     {
@@ -63,46 +83,76 @@ public abstract class mWindow: View {
         ProduceEffect(viewSerializationCfg);
         BindAndLoadPrefab(viewSerializationCfg.ViewPrefabPath);
     }
-
+    /// <summary>
+    /// 反射生成打开/关闭动效
+    /// </summary>
+    /// <param name="cfg"></param>
     protected override void ProduceEffect(ViewSerializationCfg cfg)
     {
         OpenEffect = WindowsEffect2DFactory.Create2DEffect(cfg.showType);
         CloseEffect = WindowsEffect2DFactory.Create2DEffect(cfg.hideType);
     }
 
-    //添加生命周期
+    /// <summary>
+    /// 窗口自动关闭时执行
+    /// </summary>
+    /// <param name="data"></param>
     protected virtual void OnAutoCreate(WindowData data)
     {
         viewFunc?.CallFunc(WindowsCallFuncType.AutoCreateCallFunc, data);
     }
+    /// <summary>
+    /// 窗口创建时执行
+    /// </summary>
+    /// <param name="data"></param>
     public virtual void OnCreate(WindowData data)
     {
         viewFunc?.CallFunc(WindowsCallFuncType.CreateCallFunc, data);
     }
-    public virtual void OnAfterCreate(WindowData data)
-    {
-        viewFunc?.CallFunc(WindowsCallFuncType.AfterCreateFunc, data);
-    }
+    /// <summary>
+    /// 窗口展示前时执行（执行打开动效前）
+    /// </summary>
+    /// <param name="data"></param>
     public virtual void OnBeforeShow(WindowData data)
     {
         viewFunc?.CallFunc(WindowsCallFuncType.BeforeShowCallFunc, data);
     }
+    /// <summary>
+    /// 用于展示前的生命周期（代码部分生成使用）
+    /// </summary>
+    /// <param name="data"></param>
     public virtual void OnShowByCodeGenerate(WindowData data)
     {
         viewFunc?.CallFunc(WindowsCallFuncType.ShowByCodeGenerateCallFunc, data);
     }
+    /// <summary>
+    /// 用于展示的生命周期（打开动效执行后）
+    /// </summary>
+    /// <param name="data"></param>
     public virtual void OnShow(WindowData data)
     {
         viewFunc?.CallFunc(WindowsCallFuncType.ShowCallFunc, data);
     }
+    /// <summary>
+    /// 关闭前执行的生命周期（关闭动效执行前）
+    /// </summary>
+    /// <param name="data"></param>
     public virtual void OnBeforeClose(WindowData data)
     {
         viewFunc?.CallFunc(WindowsCallFuncType.BeforeCloseCallFunc, data);
     }
+    /// <summary>
+    /// 关闭时执行的生命周期（关闭动效执行完后）
+    /// </summary>
+    /// <param name="data"></param>
     public virtual void OnClose(WindowData data)
     {
         viewFunc?.CallFunc(WindowsCallFuncType.CloseCallFunc, data);
     }
+    /// <summary>
+    /// 加载跟绑定对应窗口预制件
+    /// </summary>
+    /// <param name="path"></param>
     public override void BindAndLoadPrefab(string path)
     {
         GameObject go = Resources.Load<GameObject>(path + WindowName);
@@ -119,13 +169,18 @@ public abstract class mWindow: View {
     {
 
     }
-
+    /// <summary>
+    /// 带有自动关闭功能的窗口立刻执行自动关闭
+    /// </summary>
     public void AutoCloseImmediately()
     {
         if(autoCloseNode!=null)
             CommandDispatcher.ExecuteCommand(autoCloseNode);
     }
-
+    /// <summary>
+    /// 关闭窗口
+    /// </summary>
+    /// <param name="data"></param>
     public override void Close(WindowData data=null)
     {
         if (viewPrefab != null)
@@ -140,7 +195,10 @@ public abstract class mWindow: View {
                 });
         }
     }
-
+    /// <summary>
+    /// 打开窗口
+    /// </summary>
+    /// <param name="data"></param>
     public override void Open(WindowData data=null)
     {
         //如果是立刻打开窗口
@@ -172,6 +230,9 @@ public abstract class mWindow: View {
             }
         });
     }
+    /// <summary>
+    /// 清理生命周期函数
+    /// </summary>
     public override void ClearCallFunc()
     {
         viewFunc.Clear();

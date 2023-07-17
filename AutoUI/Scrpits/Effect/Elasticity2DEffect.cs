@@ -15,7 +15,14 @@ namespace Assets.Scripts.UI.Effect
             new Keyframe(0.9f,1.1f),
             new Keyframe(1f,1f),
             };
-
+        /// <summary>
+        /// 弹性动效打开UI
+        /// </summary>
+        /// <param name="tf"></param>
+        /// <param name="time"></param>
+        /// <param name="endvalue"></param>
+        /// <param name="callfunc"></param>
+        /// <param name="keyframes"></param>
         public static void Elasticity2DShow(this Transform tf,float time=0.5f,float endvalue = 1,Action callfunc = null,Keyframe[] keyframes=null)
         {
             var rect = tf.GetComponent<RectTransform>()?tf.GetComponent<RectTransform>():tf;
@@ -25,7 +32,13 @@ namespace Assets.Scripts.UI.Effect
             rect.DOScale(endvalue,time).SetEase(curve).onComplete=()=>{
                 callfunc?.Invoke();};
         }
-
+        /// <summary>
+        /// 弹性动效隐藏UI
+        /// </summary>
+        /// <param name="tf"></param>
+        /// <param name="time"></param>
+        /// <param name="endvalue"></param>
+        /// <param name="callfunc"></param>
         public static void Elasticity2DHide(this Transform tf,float time=0.5f,float endvalue = 0,Action callfunc = null)
         {
             var rect = tf.GetComponent<RectTransform>()?tf.GetComponent<RectTransform>():tf;

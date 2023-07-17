@@ -3,13 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 视图展示动效类型
+/// </summary>
 public enum ViewShowType
 {
     None,
     Elasticity,
     FadeIn,
 }
-
+/// <summary>
+/// 视图隐藏动效类型
+/// </summary>
 public enum ViewHideType
 {
     None,

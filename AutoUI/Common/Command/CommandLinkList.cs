@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CommandLinkList : LinkList<CommandData>
 {
-    //对每个节点执行，并把执行好的命令节点全删了
+    //对每个节点执行，并把执行好的命令节点全部移除了
     public void CommandLinkExecute()
     {
         ProcessAllNodeWithDelete(
@@ -25,7 +25,10 @@ public class CommandLinkList : LinkList<CommandData>
             }
         );     
     }
-
+    /// <summary>
+    /// 执行并移除节点
+    /// </summary>
+    /// <param name="node"></param>
     public void ExecuteAndRemoveNode(Node<CommandData> node)
     {
         node.Data.command();

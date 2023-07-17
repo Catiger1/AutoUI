@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 普通链表
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class LinkList<T>:IListDS<T>
 {
     private Node<T> head;//存储一个头结点

@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI.Effect
 {
+    /// <summary>
+    /// ÎÞ¶¯Ð§Òþ²Ø
+    /// </summary>
     public class NoneHide2DEffect: I2DEffect
     {
         public void Execute(Transform tf, Action callfunc=null)
